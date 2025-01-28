@@ -1,0 +1,14 @@
+BOOKINGAPP
+
+this app was made by Santiago Toro.
+
+instalation guide:
+
+1- Make a git clone of the repo
+
+2- install the dependences 
+    npm isntall --save express body-parse
+
+3- install the nodemon
+    npm install --save-dev nodemon
+
