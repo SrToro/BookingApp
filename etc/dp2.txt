@@ -1,7 +1,0 @@
-test doc 2
-
-switch to brach develop
-
-update 2
-
-update 3
