@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_USER": "santoloza",
-        "MONGO_PASSWORD": "Santiagotoro12321"
+        "MONGO_PASSWORD": "Santiagotoro12321",
+        "MONGO_DB": "booking_app"
     }
 }

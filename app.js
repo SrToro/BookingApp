@@ -4,9 +4,9 @@ const graphqlHttp = require('express-graphql').graphqlHTTP;
 const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 
-const app = express();
+const Event = require('./models/event');
 
-const events = [];
+const app = express();
 
 app.use(bodyParser.json());
 
@@ -46,23 +46,27 @@ app.use('/graphql', graphqlHttp({
             return events;
         },
         createEvent: (args)=>{
-            const event = {
-                _id: Math.random().toString(),
+            
+            const event = new Event({
                 title: args.eventInput.title,
                 description: args.eventInput.description,
                 price: +args.eventInput.price,
-                date: args.eventInput.date
-            };
-            
-            console.log(args)
-            events.push(event);
-            return event
+                date: new Date(args.eventInput.date)
+            });
+
+            return event.save().then(result =>{
+                console.log(result);
+                return {...result._doc};
+            }).catch(err =>{
+                console.log(err);
+                throw err;
+            });
         }
     },
     graphiql:true
 }));
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.y8brk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`).then(() => {
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.y8brk.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=Cluster0`).then(() => {
     app.listen(3000);
 }).catch(err => {
     console.log(err);
