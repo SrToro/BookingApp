@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SrToro/BookingApp#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parse": "^0.1.0",
     "express": "^4.21.2",
     "express-graphql": "^0.12.0",
