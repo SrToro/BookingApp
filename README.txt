@@ -7,6 +7,7 @@ instalation guide:
 1- Make a git clone of the repo
 
 2- install the dependences 
+    npm install node-modules
     npm isntall --save express body-parse
 
 3- install the nodemon
