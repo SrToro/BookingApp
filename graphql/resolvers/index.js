@@ -3,13 +3,25 @@ const bcrypt = require('bcryptjs');
 const Event = require('../../models/event');
 const User = require('../../models/user');
 const Booking = require('../../models/booking');
+const {dateToString} = require('../../helpers/date')
 
 const transformEvent = event =>{
     return {
         ...event._doc, 
         _id: event.id,
-        date: new Date(event._doc.date).toISOString(), 
+        date: dateToString(event._doc.date), 
         creator: user.bind(this, event.creator)}
+}
+
+const transformBooking = booking =>{
+    return {
+        ...booking._doc,
+        _id: booking._id,
+        user: user.bind(this,booking._doc.user),
+        event: singleEvent.bind(this, booking._doc.event),
+        createdAt: dateToString(booking._doc.createdAt),
+        updateddAt: dateToString(booking._doc.updatedAt)
+    }
 }
 
 
@@ -64,12 +76,7 @@ module.exports= {
         return Event.find()
         .then(events => {
             return events.map(event => {
-                return { 
-                    ...event._doc, 
-                    _id: event._id,
-                    date: new Date(event._doc.date).toISOString(),
-                    creator: user.bind(this,event._doc.creator)
-                    };
+                return transformEvent(event);
             });
         }).catch(err => {
             throw err;
@@ -82,14 +89,7 @@ module.exports= {
         return Booking.find()
         .then(bookings => {
             return bookings.map(booking =>{
-                return{
-                    ...booking._doc,
-                    _id: booking._id,
-                    user: user.bind(this,booking._doc.user),
-                    event: singleEvent.bind(this, booking._doc.event),
-                    createdAt: new Date(booking._doc.createdAt).toISOString(),
-                    updateddAt: new Date(booking._doc.updatedAt).toISOString()
-                }
+                return transformBooking(booking);
             });
         })
         .catch(err =>{
@@ -106,26 +106,20 @@ module.exports= {
             title: args.eventInput.title,
             description: args.eventInput.description,
             price: +args.eventInput.price,
-            date: new Date(args.eventInput.date),
+            date: dateToString(args.eventInput.date),
             creator: '67a2578d03ce2f8de7cfcaae'
         });
 
         return event.save()
             .then(result => {
-                createdEvent = { 
-                    ...result._doc, 
-                    _id: result._doc._id.toString(),
-                    date: new Date(result._doc.date).toISOString(),
-                    creator: user.bind(this, result._doc.creator)    
-                };
+                createdEvent = transformEvent(result);
                 return User.findById('67a2578d03ce2f8de7cfcaae');
             }).then(user =>{
                 if (!user) {
                     throw new Error('This user doesnt Exist')
                 }
                 user.createdEvents.push(event);
-                return user.save();
-            }).then(result =>{
+                user.save();
                 return createdEvent;
             })
             .catch(err => {
@@ -164,23 +158,13 @@ module.exports= {
             event: fetchedEvent
         })
         const result = await booking.save();
-        return {...result._doc,
-            _id: result.id,
-            user: user.bind(this,booking._doc.user),
-            event: singleEvent.bind(this, booking._doc.event),
-            createdAt: new Date(result._doc.createdAt).toISOString(),
-            updateddAt: new Date(result._doc.updatedAt).toISOString()
-        };
+        return transformBooking(result);
     },
     
     cancelBooking: async args =>{
         const booking = await Booking.findById(args.bookingId).populate('event')
-        const event = {
-            ...booking.event._doc, 
-            _id: booking.event.id,
-            creator: user.bind(this, booking.event._doc.creator)
-        }
-        await Booking .deleteOne({_id: args.bookingId});
-        return event
+        const event = transformEvent(booking.event);
+        await Booking.deleteOne({_id: args.bookingId});
+        return event 
     }
 };
