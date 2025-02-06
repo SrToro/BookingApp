@@ -1,9 +1,7 @@
-const bcrypt = require('bcryptjs');
-
-const Event = require('../../models/event');
-const User = require('../../models/user');
 const Booking = require('../../models/booking');
-const {dateToString} = require('../../helpers/date')
+const {dateToString} = require('../../helpers/date');
+
+const { user, singleEvent } = require('./merge')
 
 
 
