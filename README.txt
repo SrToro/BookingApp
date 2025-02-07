@@ -9,6 +9,7 @@ instalation guide:
 2- install the dependences 
     npm install node-modules
     npm isntall --save express body-parse
+    npm isntall --save jsonwebtoken
 
 3- install the nodemon
     npm install --save-dev nodemon
