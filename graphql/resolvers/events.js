@@ -1,19 +1,14 @@
 const Event = require('../../models/event');
+
 const {dateToString} = require('../../helpers/date');
-const { user } = require('./merge');
+
+const { transformEvent } = require('./merge');
 
 
-const transformEvent = event =>{
-    return {
-        ...event._doc, 
-        _id: event.id,
-        date: dateToString(event._doc.date), 
-        creator: user.bind(this, event.creator)}
-}
 
 module.exports= {
 
-    //querys
+    //Events querys
     
     events: () => {
 
@@ -28,7 +23,7 @@ module.exports= {
 
     },
 
-    //mutations
+    //Events mutations
 
     createEvent: args => {
 

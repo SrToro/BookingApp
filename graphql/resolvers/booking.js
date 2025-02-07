@@ -1,25 +1,13 @@
 const Booking = require('../../models/booking');
-const {dateToString} = require('../../helpers/date');
+const Event = require('../../models/event');
 
-const { user, singleEvent } = require('./merge')
+const { transformEvent, transformBooking} = require('./merge')
 
-
-
-const transformBooking = booking =>{
-    return {
-        ...booking._doc,
-        _id: booking._id,
-        user: user.bind(this,booking._doc.user),
-        event: singleEvent.bind(this, booking._doc.event),
-        createdAt: dateToString(booking._doc.createdAt),
-        updateddAt: dateToString(booking._doc.updatedAt)
-    }
-}
 
 
 module.exports= {
 
-    //querys
+    //booking querys
     
     bookings: () => {
 
@@ -35,30 +23,8 @@ module.exports= {
     },
 
 
-    //mutations
+    // booking mutations
 
-    createUser: args => {
-        return User.findOne({ email: args.userInput.email })
-            .then(user => {
-                if (user) {
-                    throw new Error('This user exist already')
-                }
-
-                return bcrypt.hash(args.userInput.password, 12)
-
-            }).then(hashedPassword => {
-                const user = new User({
-                    email: args.userInput.email,
-                    password: hashedPassword
-                });
-                return user.save();
-            }).then(result => {
-                return { ...result._doc, password: null, _id: result._doc._id.toString() };
-            })
-            .catch(err => {
-                throw err
-            });
-    },
     bookEvent: async args =>{
 
         const fetchedEvent = await Event.findOne({_id: args.eventId});
