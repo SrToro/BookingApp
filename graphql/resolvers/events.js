@@ -1,4 +1,5 @@
 const Event = require('../../models/event');
+const User = require('../../models/user');
 
 const {dateToString} = require('../../helpers/date');
 
@@ -25,20 +26,22 @@ module.exports= {
 
     //Events mutations
 
-    createEvent: args => {
-
+    createEvent: async (args, req) => {
+        if (!req.isAuth){
+            throw new Error('User does not logged in')
+        }
         const event = new Event({
             title: args.eventInput.title,
             description: args.eventInput.description,
             price: +args.eventInput.price,
             date: dateToString(args.eventInput.date),
-            creator: '67a2578d03ce2f8de7cfcaae'
+            creator: req.userId
         });
 
         return event.save()
             .then(result => {
                 createdEvent = transformEvent(result);
-                return User.findById('67a2578d03ce2f8de7cfcaae');
+                return User.findById(req.userId);
             }).then(user =>{
                 if (!user) {
                     throw new Error('This user doesnt Exist')

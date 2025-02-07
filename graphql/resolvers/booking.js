@@ -9,8 +9,11 @@ module.exports= {
 
     //booking querys
     
-    bookings: () => {
+    bookings: async (args, req) => {
 
+        if (!req.isAuth){
+            throw new Error('User does not logged in')
+        }
         return Booking.find()
         .then(bookings => {
             return bookings.map(booking =>{
@@ -25,18 +28,26 @@ module.exports= {
 
     // booking mutations
 
-    bookEvent: async args =>{
+    bookEvent: async (args, req) =>{
+        if (!req.isAuth){
+            throw new Error('User does not logged in')
+        }
 
         const fetchedEvent = await Event.findOne({_id: args.eventId});
         const booking = new Booking({
-            user: '67a2578d03ce2f8de7cfcaae',
+            user: req.userId,
             event: fetchedEvent
         })
         const result = await booking.save();
         return transformBooking(result);
     },
     
-    cancelBooking: async args =>{
+    cancelBooking: async (args, req) =>{
+        
+        if (!req.isAuth){
+            throw new Error('User does not logged in')
+        }
+
         const booking = await Booking.findById(args.bookingId).populate('event')
         const event = transformEvent(booking.event);
         await Booking.deleteOne({_id: args.bookingId});
