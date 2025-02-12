@@ -11,6 +11,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//every host, every client can send request to this server
+app.use(( req, res, next ) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    //this cond is for the options making failed cause we dont want to handle that for now
+    if (req.method === 'OPTIONS'){
+        return res.sendStatus(200)
+    }
+
+    next();
+});
+
 app.use(isAuth);
 
 app.use('/graphql', graphqlHttp({
