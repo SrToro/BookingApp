@@ -14,4 +14,6 @@ instalation guide:
 3- install the nodemon
     npm install --save-dev nodemon
 
-se planea realizar un funcionamiento en servidor con nginx para trabajar en un sistema wan
+
+im looking for a nginx or Apache server
+
