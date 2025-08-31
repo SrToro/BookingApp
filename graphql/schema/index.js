@@ -1,5 +1,5 @@
 const {buildSchema} = require ('graphql');
-
+//probando git from mac
 module.exports = buildSchema(`
 
         type Booking {
