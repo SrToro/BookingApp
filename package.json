@@ -8,7 +8,7 @@
     "start": "nodemon app.js",
     
 
-    "prestart": "node script/cmp-files.js package-lock.json .installed.package-lock.json || npm install && cp package-lock.json .installed.package-lock.json"
+    "prestart": "node package-lock.json .installed.package-lock.json || npm install && cp package-lock.json .installed.package-lock.json"
   
   },
   "repository": {
