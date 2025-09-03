@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
+    
+
     "prestart": "node script/cmp-files.js package-lock.json .installed.package-lock.json || npm install && cp package-lock.json .installed.package-lock.json"
+  
   },
   "repository": {
     "type": "git",
