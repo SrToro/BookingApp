@@ -38,7 +38,7 @@ app.use('/graphql', graphqlHttp({
 
 mongoose.connect('mongodb://127.0.0.1/booking_app')
     .then(() => {
-    app.listen(8000);
+    app.listen(8001);
     console.log('db conected')
 }).catch(err => {
     console.log(err);
