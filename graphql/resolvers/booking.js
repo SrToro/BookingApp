@@ -14,16 +14,18 @@ module.exports= {
         if (!req.isAuth){
             throw new Error('User does not logged in')
         }
-        return Booking.find({user: req.userId})
-        .then(bookings => {
+
+        try{
+            const bookings = await Booking.find()
             return bookings.map(booking =>{
                 return transformBooking(booking);
             });
-        })
-        .catch(err =>{
+            console.log(bookings)
+        }
+        catch(err){
             throw err;
-        });
-    },
+        };
+    }, //EL PROBLEMA ES EN BOOKING ALGO PASA QUE ME TRAE UN ARREGLO VACIO
 
 
     // booking mutations
