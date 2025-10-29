@@ -16,7 +16,7 @@ module.exports= {
         }
 
         try{
-            const bookings = await Booking.find()
+            const bookings = await Booking.find({user: req.userId}); 
             return bookings.map(booking =>{
                 return transformBooking(booking);
             });
@@ -25,7 +25,7 @@ module.exports= {
         catch(err){
             throw err;
         };
-    }, //EL PROBLEMA ES EN BOOKING ALGO PASA QUE ME TRAE UN ARREGLO VACIO
+    }, 
 
 
     // booking mutations
