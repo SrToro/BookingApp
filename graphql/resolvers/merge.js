@@ -28,7 +28,7 @@ const events = eventIds =>{
 
 // get single event by id
 const singleEvent = eventId =>{
-    return eventLoader.load(eventId) 
+    return eventLoader.load(eventId.toString())  
     .then(event =>{
         return event
     })
@@ -39,7 +39,7 @@ const singleEvent = eventId =>{
 
 //find user by id
 const user = userId =>{
-    return userLoader.findById(userId)
+    return userLoader.load(userId.toString())
     .then(user =>{
         return{
             ...user._doc, 
