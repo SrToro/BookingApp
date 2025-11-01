@@ -46,11 +46,11 @@ const user = userId =>{
             _id: user.id, 
             createdEvents: eventLoader.loadMany.bind(this, user._doc.createdEvents)};
     })
-    .catch(err =>{
-        throw err;
-    });
+    .catch(err =>{ 
+        throw err; 
+    });  
 };
-
+ 
 //get Event complete doc
 
 const transformEvent = event =>{
@@ -64,15 +64,15 @@ const transformEvent = event =>{
 //get booking complete doc
 const transformBooking = booking =>{
     return {
-        ...booking._doc,
-        _id: booking._id,
-        user: user.bind(this,booking._doc.user),
-        event: singleEvent.bind(this, booking._doc.event),
-        createdAt: dateToString(booking._doc.createdAt),
-        updateddAt: dateToString(booking._doc.updatedAt)
-    }
+        ...booking._doc, 
+        _id: booking._id, 
+        user: user.bind(this,booking._doc.user), 
+        event: singleEvent.bind(this, booking._doc.event), 
+        createdAt: dateToString(booking._doc.createdAt), 
+        updateddAt: dateToString(booking._doc.updatedAt) 
+    }  
 }
-
+  
 exports.transformBooking = transformBooking;
 exports.transformEvent = transformEvent;
 
