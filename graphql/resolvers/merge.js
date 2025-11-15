@@ -44,7 +44,7 @@ const user = userId =>{
         return{
             ...user._doc, 
             _id: user.id, 
-            createdEvents: eventLoader.loadMany.bind(this, user._doc.createdEvents)};
+            createdEvents: () => eventLoader.loadMany(this, user._doc.createdEvents)};
     })
     .catch(err =>{
         throw err;

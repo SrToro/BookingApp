@@ -10,6 +10,7 @@ instalation guide:
     npm install node-modules
     npm isntall --save express body-parse
     npm isntall --save jsonwebtoken
+    npm install --save dataloader
 
 3- install the nodemon
     npm install --save-dev nodemon
