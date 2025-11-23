@@ -15,17 +15,17 @@ module.exports= {
             throw new Error('User does not logged in')
         }
 
-        try{
-            const bookings = await Booking.find({user: req.userId}); 
-            return bookings.map(booking =>{
-                return transformBooking(booking);
-            });
-            console.log(bookings)
+        try{ 
+            const bookings = await Booking.find({user: req.userId});
+            return bookings.map(booking =>{ 
+                return transformBooking(booking); 
+            }); 
+            console.log(bookings) 
         }
         catch(err){
             throw err;
         };
-    }, 
+    },
 
 
     // booking mutations
